@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상품 상세 페이지</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="signin.html">Sign in</a></li>
+          <li><a href="myhome.html">My Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
+      <button id="cartButton">장바구니</button>
+    </header>
+
+    <div class="product-detail">
+      <img src="product1.jpg" alt="상품 1" />
+      <h3>상품 1</h3>
+      <p>가격: $100</p>
+      <button class="add-to-cart" data-product="product1">
+        장바구니에 추가
+      </button>
+
+      <!-- 찜 버튼 추가 -->
+      <button class="add-to-wishlist" data-product="product1">찜</button>
+    </div>
+
+    <!-- ... (다른 상품들도 유사하게 추가) -->
+
+    <footer></footer>
+
+    <script type="module">
+      // JavaScript 코드
+      document.querySelectorAll('.add-to-cart').forEach((button) => {
+        button.addEventListener('click', function () {
+          const productName = this.getAttribute('data-product')
+          let cart = JSON.parse(localStorage.getItem('cart')) || []
+          cart.push(productName)
+          localStorage.setItem('cart', JSON.stringify(cart))
+          alert('장바구니에 추가되었습니다.')
+        })
+      })
+
+      // 찜 목록 기능
+      document.querySelectorAll('.add-to-wishlist').forEach((button) => {
+        button.addEventListener('click', function () {
+          const productName = this.getAttribute('data-product')
+          let wishlist = JSON.parse(localStorage.getItem('wishlist')) || []
+          wishlist.push(productName)
+          localStorage.setItem('wishlist', JSON.stringify(wishlist))
+          alert('찜 목록에 추가되었습니다.')
+        })
+      })
+    </script>
+  </body>
+</html>

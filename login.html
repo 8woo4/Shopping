@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="index.html">home</a>
+          </li>
+          <li>
+            <a href="signin.html">Sign in</a>
+          </li>
+          <li>
+            <a href="myhome.html">My home</a>
+          </li>
+          <li>
+            <a href="login.html">login</a>
+          </li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
+      <button id="cartButton">장바구니</button>
+    </header>
+
+    <form>
+      <h2>로그인</h2>
+      <div>email : <input type="email" id="loginEmail" /></div>
+      <div>password : <input type="password" id="loginPassword" /></div>
+      <button type="submit" id="loginButton">로그인</button>
+    </form>
+
+    <p id="loginStatus"></p>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+      import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js'
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+      } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: 'AIzaSyD3Suvablx06LyP3Ta84zelmzx3gu4AdSY',
+        authDomain: 'login-6fd39.firebaseapp.com',
+        projectId: 'login-6fd39',
+        storageBucket: 'login-6fd39.appspot.com',
+        messagingSenderId: '754361453461',
+        appId: '1:754361453461:web:80d5a3fa55d045b28b849c',
+        measurementId: 'G-1WH6R4SVHR',
+      }
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig)
+      const analytics = getAnalytics(app)
+
+      const auth = getAuth()
+      const loginEmail = document.getElementById('loginEmail')
+      const loginPassword = document.getElementById('loginPassword')
+      const loginButton = document.getElementById('loginButton')
+      const loginStatus = document.getElementById('loginStatus')
+
+      // 로그인 버튼 클릭 시 이벤트 핸들러
+      loginButton.addEventListener('click', (event) => {
+        event.preventDefault()
+        const email = loginEmail.value
+        const password = loginPassword.value
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            console.log('로그인 성공:', userCredential)
+            // 로그인 성공 시 myhome.html 페이지로 이동
+            window.location.href = 'myhome.html'
+
+            // 로그인 성공 메시지 출력
+            loginStatus.textContent = '로그인 되었습니다.'
+          })
+          .catch((error) => {
+            console.error('로그인 실패:', error)
+            const errorCode = error.code
+            const errorMessage = error.message
+            // ..
+          })
+      })
+
+      // 로그인 상태 변경 이벤트 리스너
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // 사용자가 로그인한 경우, myhome.html 페이지로 이동
+          window.location.href = 'myhome.html'
+        }
+      })
+
+      console.log(app)
+    </script>
+
+    <footer></footer>
+  </body>
+</html>

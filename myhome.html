@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이 홈</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="signin.html">Sign in</a></li>
+          <li><a href="myhome.html">My Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
+      <button id="cartButton">장바구니</button>
+    </header>
+
+    <p>나의 홈</p>
+    <a href="like.html" id="wishlistLink">찜 목록 보기</a>
+    <!-- 찜 목록 페이지로 이동하는 링크 -->
+
+    <!-- 찜 목록을 보여주기 위한 영역 -->
+    <div id="wishlist">
+      <!-- JavaScript로 찜 목록이 채워질 것입니다. -->
+    </div>
+
+    <footer></footer>
+
+    <script type="module">
+      // Firebase 초기화 및 사용자 인증 상태 확인
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+
+      const firebaseConfig = {
+        // Firebase 설정 정보 입력
+        apiKey: 'AIzaSyD3Suvablx06LyP3Ta84zelmzx3gu4AdSY',
+        authDomain: 'login-6fd39.firebaseapp.com',
+        projectId: 'login-6fd39',
+        storageBucket: 'login-6fd39.appspot.com',
+        messagingSenderId: '754361453461',
+        appId: '1:754361453461:web:80d5a3fa55d045b28b849c',
+        measurementId: 'G-1WH6R4SVHR',
+      }
+
+      const app = initializeApp(firebaseConfig)
+      const auth = getAuth()
+
+      // 로그인 상태 확인
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // 로그인된 사용자라면 찜 목록을 가져와서 보여줍니다.
+          const wishlist = JSON.parse(localStorage.getItem('wishlist')) || []
+          const wishlistContainer = document.getElementById('wishlist')
+          wishlistContainer.innerHTML = '<h2>찜 목록</h2>'
+          if (wishlist.length === 0) {
+            wishlistContainer.innerHTML += '<p>찜한 상품이 없습니다.</p>'
+          } else {
+            wishlist.forEach((product) => {
+              wishlistContainer.innerHTML += `<p>${product}</p>`
+            })
+          }
+        } else {
+          // 로그인되지 않은 경우 로그인 페이지로 리다이렉트합니다.
+          window.location.href = 'login.html'
+        }
+      })
+
+      // "My Home" 링크에 대한 클릭 이벤트 핸들러
+      const wishlistLink = document.getElementById('wishlistLink')
+      wishlistLink.addEventListener('click', (event) => {
+        // 이벤트를 취소하여 기본 동작을 막음
+        event.preventDefault()
+
+        // 로그인되지 않은 경우 로그인 페이지로 이동
+        if (!auth.currentUser) {
+          window.location.href = 'login.html'
+        }
+      })
+    </script>
+  </body>
+</html>

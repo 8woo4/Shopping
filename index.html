@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쇼핑몰</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="signin.html">Sign in</a></li>
+          <li><a href="myhome.html">My Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </nav>
+      <button id="cartButton">장바구니</button>
+    </header>
+
+    <div class="product">
+      <img src="product1.jpg" alt="상품 1" />
+      <h3>상품 1</h3>
+      <p>가격: $100</p>
+      <a href="detail.html">상세 정보 보기</a>
+      <button class="add-to-cart" data-product="product1">
+        장바구니에 추가
+      </button>
+    </div>
+
+    <div class="product">
+      <img src="product2.jpg" alt="상품 2" />
+      <h3>상품 2</h3>
+      <p>가격: $150</p>
+      <a href="detail.html">상세 정보 보기</a>
+      <button class="add-to-cart" data-product="product2">
+        장바구니에 추가
+      </button>
+    </div>
+
+    <!-- 다른 상품들도 유사하게 추가 -->
+
+    <footer></footer>
+
+    <script type="module">
+      // JavaScript 코드
+      document.querySelectorAll('.add-to-cart').forEach((button) => {
+        button.addEventListener('click', function () {
+          const productName = this.getAttribute('data-product')
+          let cart = JSON.parse(localStorage.getItem('cart')) || []
+          cart.push(productName)
+          localStorage.setItem('cart', JSON.stringify(cart))
+          alert('장바구니에 추가되었습니다.')
+        })
+      })
+    </script>
+  </body>
+</html>
